@@ -1,62 +1,52 @@
-// all.cpp
+// memory.cpp
 
 #include <chrono>
 #include <iostream>
 #include <memory>
 
-static const long long numInt= 100000000;
+#include "utils/stop_watch.hpp"
 
-void raw() {
-  auto start = std::chrono::system_clock::now();
-  for ( long long i=0 ; i < numInt; ++i){
+void raw(uint64_t n) {
+  lsilveira::StopWatch stopwatch(__FUNCTION__);
+  for (uint64_t i = 0 ; i < n; ++i){
     int* tmp(new int(i));
     delete tmp;
   }
-  std::chrono::duration<double> dur= std::chrono::system_clock::now() - start;
-  std::cout << "time: " << __FUNCTION__ << " " << dur.count() << " seconds" << std::endl;
 }
 
-
-void shared1() {
-  auto start = std::chrono::system_clock::now();
-  for ( long long i=0 ; i < numInt; ++i){
+void shared(uint64_t n) {
+  lsilveira::StopWatch stopwatch(__FUNCTION__);
+  for (uint64_t i = 0 ; i < n; ++i){
     std::shared_ptr<int> tmp(new int(i));
   }
-  std::chrono::duration<double> dur= std::chrono::system_clock::now() - start;
-  std::cout << "time: " << __FUNCTION__ << " " << dur.count() << " seconds" << std::endl;
 }
 
-void shared2() {
-  auto start = std::chrono::system_clock::now();
-  for ( long long i=0 ; i < numInt; ++i){
+void make_shared(uint64_t n) {
+  lsilveira::StopWatch stopwatch(__FUNCTION__);
+  for (uint64_t i = 0 ; i < n; ++i){
     std::shared_ptr<int> tmp(std::make_shared<int>(i));
   }
-  std::chrono::duration<double> dur= std::chrono::system_clock::now() - start;
-  std::cout << "time: " << __FUNCTION__ << " " << dur.count() << " seconds" << std::endl;
 }
 
-void unique1() {
-  auto start = std::chrono::system_clock::now();
-  for ( long long i=0 ; i < numInt; ++i){
+void unique(uint64_t n) {
+  lsilveira::StopWatch stopwatch(__FUNCTION__);
+  for (uint64_t i = 0 ; i < n; ++i){
     std::unique_ptr<int> tmp(new int(i));
   }
-  std::chrono::duration<double> dur= std::chrono::system_clock::now() - start;
-  std::cout << "time: " << __FUNCTION__ << " " << dur.count() << " seconds" << std::endl;
 }
 
-void unique2() {
-  auto start = std::chrono::system_clock::now();
-  for ( long long i=0 ; i < numInt; ++i){
+void make_unique(uint64_t n) {
+  lsilveira::StopWatch stopwatch(__FUNCTION__);
+  for (uint64_t i = 0 ; i < n; ++i){
     std::unique_ptr<int> tmp(std::make_unique<int>(i));
   }
-  std::chrono::duration<double> dur= std::chrono::system_clock::now() - start;
-  std::cout << "time: " << __FUNCTION__ << " " << dur.count() << " seconds" << std::endl;
 }
 
 int main(){
-  raw();
-  shared1();
-  shared2();
-  unique1();
-  unique2();
+  int n = 100000000;
+  raw(n);
+  shared(n);
+  make_shared(n);
+  unique(n);
+  make_unique(n);
 }
