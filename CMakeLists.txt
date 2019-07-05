@@ -8,3 +8,5 @@ add_library(lsilveira_utils "utils/stop_watch.cpp")
 
 add_executable(memory_allocation "memory_allocation/memory.cpp")
 target_link_libraries(memory_allocation lsilveira_utils)
+
+add_executable(html_element "design_patterns/builder/html_element.cpp")
